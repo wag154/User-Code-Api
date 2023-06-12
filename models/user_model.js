@@ -11,11 +11,27 @@ class User{
         const LETTERS = "ABCDEFGHIJKLMNOPQRSTUVWXYRZ"
         const letters = "abcdefghijklmnopqrstuvwxyrz"
         const numbers = "0123456789"
-        const symbols = "#~@+-=£$%&"
+        const symbols = "#~@+-£$%&"
         let gen_code = ""
-        for (let i = 0; i != 4; i ++){
-            gen_code += numbers[Math.floor(Math.random()*10)]
-        }
+        for (let i = 0; i != 10 ; i++){
+            const randomChoice = Math.floor(Math.random()*4)
+            switch (randomChoice){
+                case 0:
+                    gen_code += LETTERS[Math.floor(Math.random()*LETTERS.length)]
+                    break;
+                case 1: 
+                    gen_code += letters[Math.floor(Math.random()*letters.length)]
+                    break;
+                case 2:
+                    gen_code += numbers[Math.floor(Math.random()*numbers.length)]
+                    break;
+                case 3: 
+                    gen_code += symbols[Math.floor(Math.random()*symbols.length)]
+                    break;
+                default:
+                    throw new Error("Index out of range")
+                }
+            }
         let new_gen_pass = ""
         for (let i = 0; i != 18 ; i++){
             const randomChoice = Math.floor(Math.random()*4)
@@ -33,13 +49,13 @@ class User{
                     new_gen_pass += symbols[Math.floor(Math.random()*symbols.length)]
                     break;
                 default:
-                    console.log("error, switch case out of range")
+                    throw new Error("Index out of range")
                 }
         }
         const salt = await bcrypt.genSalt();
         let hashed = await bcrypt.hash(new_gen_pass,salt);
         try{
-            const res = await db.query("INSERT INTO example(username,user_password,gen_code) VALUES ($1,$2,$3)",[username,hashed,parseInt(gen_code)])
+            const res = await db.query("INSERT INTO example(username,user_password,gen_code) VALUES ($1,$2,$3)",[username,hashed,gen_code])
             return [new_gen_pass,gen_code];
         }
         catch (e){
