@@ -32,6 +32,9 @@ const check = async (req,res)=>{
         res.status(400).json({message : e});
     }
 }
+const use = async(req,res)=>{
+    //
+}
 module.exports = {  
     create,
     check
