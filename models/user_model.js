@@ -1,6 +1,7 @@
 const db = require("../database/connect");
 const bcrypt = require("bcrypt");
-const uuid = require("uuid")
+const uuid = require("uuid");
+
 class User{
     constructor ({id,username, user_password}){
         this.id = id;
