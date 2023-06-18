@@ -17,7 +17,8 @@ const create = async(req,res)=>{
        const token = await jwt_token(user_info)
        const passcode = encryptData(user_info[0])
        const code = encryptData(user_info[1])
-       res.cookie("token", token, {maxAge : jwt_expiratory * 1000}).json({"password": passcode, "code" :code}).status(200)
+       res.cookie("token", token, {maxAge : jwt_expiratory * 1000})
+       res.status(200).json({"password": passcode, "code" :code})
     }
     catch(e){
         res.status(400).json({"message" : e});

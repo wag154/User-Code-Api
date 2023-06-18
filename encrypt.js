@@ -1,18 +1,20 @@
 const crypto = require("crypto");
 
-const key = crypto
-  .createHash("sha512")
-  .update("CYsHR61AKPa8I")
-  .digest("hex")
-  .substring(0, 32);
+ const key = crypto
+   .createHash("sha512")
+   .update("CYsHR61AKPa8I")
+   .digest("hex")
+   .substring(0, 32);
 
-const encryptionIv = crypto
-  .createHash("sha512")
-  .update("H9aDq26KD")
-  .digest("hex")
-  .substring(0, 16);
+ const encryptionIv = crypto
+   .createHash("sha512")
+   .update("H9aDq26KD")
+   .digest("hex")
+   .substring(0, 16);
 
-function encryptData(data) {
+
+  console.log("keys",key,encryptionIv)
+  function encryptData(data) {
   const cipher = crypto.createCipheriv("aes-256-cbc", key, encryptionIv);
   return Buffer.from(
     cipher.update(data, "utf8", "hex") + cipher.final("hex")
@@ -28,4 +30,8 @@ function decryptData(encryptedData) {
 module.exports = {
   encryptData,
   decryptData
-};
+};  
+const value = encryptData("hello")
+//const value = "YzQxYTU3ZTg0ZmUyOGM2ZWU2ZmVhMWIxNTA5YmMwNTE=";
+console.log(value)
+console.log("Value :",decryptData(value))
